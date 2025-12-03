@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Final: Thor y Loki</title>
+    
+    <!-- Cargar BOOTSTRAP (El Framework) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!--  Cargar p5.js (Librería gráfica) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+
+    <style>
+        /* estilos personalizados para generar el toque "nórdico" */
+        body {
+            background-color: #212529; /* fondo oscuro Bootstrap */
+            color: #f8f9fa;
+            /* textura de madera oscura para el background  */
+            background-image: url('https://www.transparenttextures.com/patterns/dark-wood.png'); 
+        }
+        
+        .navbar {
+            border-bottom: 3px solid #d4af37; /* borde dorado */
+        }
+
+        .titulo-principal {
+            font-family: 'Georgia', serif;
+            color: #d4af37; /* dorado */
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        /* cajita contenedora de la aventura gráfica + juego */
+        #contenedor-del-juego {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            border: 5px solid #4a3b2a; /* marquito*/
+            background-color: black;
+            padding: 0;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        /* ocultar secciones por defecto */
+        .seccion-web {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .seccion-activa {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card-custom {
+            background-color: #13161a;
+            border: 1px solid #d4af37;
+        }
+
+        /* adaptación a celular..*/
+        @media screen and (max-width: 768px) {
+            #contenedor-del-juego {
+                max-width: 100vw;
+                width: 100%;
+                margin: 10px auto;
+                border-width: 2px;
+                overflow: auto;
+            }
+            .navbar-brand {
+                font-size: 0.85rem;
+            }
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ DE NAVEGACIÓN (Navbar de Bootstrap) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-warning" href="#">TP#Final — Sitio web de la Aventura Gráfica Interactiva</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="cambiarSeccion('inicio')">Jugar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="cambiarSeccion('produccion')">Producción</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="cambiarSeccion('equipo')">Equipo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container my-4">
+
+        <!-- SECCIÓN 1: INICIO / JUEGO -->
+        <div id="inicio" class="seccion-web seccion-activa text-center">
+            <h1 class="titulo-principal display-4">Thor y Loki: El Robo de Mjölnir</h1>
+            <p class="lead text-light">Ayuda a los dioses a recuperar el martillo en esta aventura gráfica interactiva.</p>
+            
+            <div class="alert alert-danger border-warning text-warning d-inline-block bg-dark" role="alert">
+                <small>⚠️ Haz clic en la pantalla del juego para activar el audio.</small>
+            </div>
+
+            <!-- canvas de P5.JS -->
+            <div id="contenedor-del-juego"></div>
+
+        </div>
+
+
+        <!-- SECCIÓN 2: PRODUCCIÓN :D -->
+        <div id="produccion" class="seccion-web">
+            <h2 class="titulo-principal mb-4 border-bottom border-warning pb-2">Sobre el Proyecto</h2>
+            
+            <div class="row g-4">
+            <div class="col-md-6">
+            <div class="card card-custom h-100 text-light">
+            <div class="card-body">
+                <h5 class="card-title text-warning">📜 La Temática</h5>
+                <p class="card-text">
+                El juego está basado en el mito nórdico del <em>Thrymskvida</em>. 
+                Narra cómo Thor despierta y descubre que su martillo ha sido robado por el gigante Thrym, 
+                quien pide a cambio casarse con la diosa Freyja.
+                </p>
+            </div>
+            </div>
+            </div>
+            <div class="col-md-6">
+            <div class="card card-custom h-100 text-light">
+            <div class="card-body">
+                <h5 class="card-title text-warning">🛠️ Proceso Técnico</h5>
+                <p class="card-text">
+                Desarrollado en la Etapa 1 utilizando <strong>JavaScript y p5.js</strong>.
+                Se implementó una máquina de estados para controlar las diferentes pantallas de la historia 
+                y un minijuego de esquivar obstáculos usando Programación Orientada a Objetos (Clases).
+                </p>
+            </div>
+            </div>
+            </div>
+            </div>
+
+            <div class="row g-4 mt-3">
+                <div class="col-12">
+                    <div class="card card-custom h-100 text-light">
+                        <div class="card-body">
+                            <h5 class="card-title text-warning">📌 Diagrama</h5>
+                            <p class="card-text">
+                                El flujo del juego se diseñó mediante un diagrama de estados que mapea las decisiones 
+                                del jugador y sus consecuencias en la narrativa. 
+                                Esto facilitó la implementación lógica y la organización del código.
+                            </p>
+                            <img src="data/diagrama.jpg" alt="Diagrama de flujo" class="img-fluid rounded mt-3" style="width: 100%; height: auto;">
+                            <p class="card-text mt-3">
+                                (abrir imagen en una nueva pestaña para ver con mejor resolución)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: EQUIPO :P -->
+        <div id="equipo" class="seccion-web">
+            <h2 class="titulo-principal mb-4 border-bottom border-warning pb-2">Integrantes del Equipo</h2>
+            
+            <div class="row justify-content-center">
+                <!-- integrante 1 -->
+                <div class="col-md-5 mb-3">
+                    <div class="card card-custom text-center p-3 text-light">
+                        <div class="card-body">
+                            <div class="mb-3" style="font-size: 3rem;">🧙‍♂️</div>
+                            <h3 class="text-warning">Angel Ojeda</h3>
+                            <p class="text-white-50">Programación y Lógica</p>
+                            <p class="small">"Me encargué de solucionar los bugs del minijuego, escribir parte del código y el diseño de la interfaz web con Bootstrap. También de la generación de imágenes."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- integrante 2 -->
+                <div class="col-md-5 mb-3">
+                    <div class="card card-custom text-center p-3 text-light">
+                        <div class="card-body">
+                            <div class="mb-3" style="font-size: 3rem;">🧝‍♀️</div>
+                            <h3 class="text-warning">Nadia Romero</h3>
+                            <p class="text-white-50">Diseño y Arte</p>
+                            <p class="small">"Me encargué de solucionar bugs y editar parte del código, junto con la generación de algunas imágenes y musicalización de la aventura gráfica."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-center text-white-50 py-3 mt-5 border-top border-secondary">
+        <p class="mb-0">Trabajo final PMIW :D</p>
+    </footer>
+
+    <!-- BOOTSTRAP JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SCRIPTS DE LA PÁGINA (cambio de pestañas) -->
+    <script>
+        function cambiarSeccion(id) {
+            if (currentMusic) currentMusic.stop();
+            if (targetMusic) targetMusic.stop();
+            // ocultar secciones
+            document.querySelectorAll('.seccion-web').forEach(sec => sec.classList.remove('seccion-activa'));
+            // mostrar la seleccionada
+            document.getElementById(id).classList.add('seccion-activa');
+            
+            // actualizar menú activo
+            document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+            if(event) event.target.classList.add('active');
+        }
+    </script>
+
+    <!-- ========================================== -->
+    <!--           CÓDIGO DE LA AVENTURA            -->
+    <!-- ========================================== -->
+    <script>
+        // --- VARIABLES GLOBALES ---
+        let pantalla = "inicio";
+        let imgs = {};
+        let textos = {};
+        let inicio_mus, ingame_mus, minijuego_mus;
+        let muted = false;
+        let miJuego; 
+        let juegoIniciado = false;
+        
+        // Control táctil para móvil
+        let teclas = { left: false, right: false };
+        function teclaPresionada(dir) { teclas[dir] = true; }
+        function teclaLiberada(dir) { teclas[dir] = false; }
+        
+        // Variables para crossfade de música
+        let currentMusic = null;
+        let targetMusic = null;
+        let fadeDuration = 1.0;
+        let fadeStartTime = 0;
+        let fading = false;
+        
+        let clickBloqueado = false;
+
+        // --- PRELOAD  ---
+        function preload() {
+            // imágenes de la historia
+            imgs["inicio"] = loadImage("data/inicio.png");
+            imgs["creditos"] = loadImage("data/creditos.jpg");
+            imgs["intro"] = loadImage("data/intro.png");
+            imgs["solo"] = loadImage("data/solo.png");
+            imgs["loki"] = loadImage("data/loki.png");
+            imgs["thrym"] = loadImage("data/thrym.png");
+            imgs["freya"] = loadImage("data/freya.png");
+            imgs["plan"] = loadImage("data/plan.png");
+            imgs["boda"] = loadImage("data/boda.png");
+            imgs["banquete"] = loadImage("data/banquete.png");
+            imgs["martillo"] = loadImage("data/martillo.png");
+            imgs["escape"] = loadImage("data/escape.png"); 
+            imgs["asgard"] = loadImage("data/asgard.png");
+            imgs["lokiFinal"] = loadImage("data/loki_final.png");
+            imgs["finalHeroico"] = loadImage("data/final_heroico.png");
+            imgs["finalMalo"] = loadImage("data/final_malo.png");
+
+            // elementos del minijuego
+            imgs["gigante"] = loadImage("data/gigante.png");
+            imgs["trineo"] = loadImage("data/trineo_thorloki.png");
+            
+            // elementos UI
+            imgs["cursor"] = loadImage("data/cursor.png");
+            imgs["mute"] = loadImage("data/mute.png");
+            imgs["unmute"] = loadImage("data/unmute.png");
+
+            // sonidos
+            inicio_mus = loadSound('sonidos/gwynlordofcinder_motoisakuraba.mp3');
+            ingame_mus = loadSound('sonidos/deslienssolides_shirosagisu.mp3');
+            minijuego_mus = loadSound('sonidos/planetsakaar_markmothersbaugh.mp3');
+        }
+
+        // --- SETUP ---
+        function setup() {
+            // canvas dentro del contenedor
+            let cnv = createCanvas(640, 480);
+            cnv.parent('contenedor-del-juego'); 
+            
+            textFont("Georgia");
+            textAlign(CENTER, CENTER);
+            noCursor(); // ocultamos el cursor normal para usar el personalizado en la aventura
+
+            // textos de la historia
+            textos["intro"] = "Thor descubre que su martillo ha sido robado.\n¿Va solo a Jotunheim o pide ayuda a Loki?";
+            textos["solo"] = "Thor viaja solo a Jotunheim.\n¿Elige atacar silenciosamente o ir cual kamikaze?";
+            textos["loki"] = "Thor pide ayuda a Loki.\nJuntos parten hacia Jotunheim.";
+            textos["thrym"] = "El gigante Thrym exige a Freyja como esposa a cambio del martillo.\nLoki presenta un plan fuera de lo normal";
+            textos["freya"] = "Freyja rechaza indignada.\n¿Qué harán ahora?";
+            textos["plan"] = "Loki idea un plan: disfrazar a Thor de novia.";
+            textos["boda"] = "Thor disfrazado y Loki llegan al banquete nupcial.";
+            textos["banquete"] = "Thor come demasiado y casi arruina el plan.\nThrym sospecha...";
+            textos["martillo"] = "El martillo aparece para bendecir la unión.\nEs la oportunidad perfecta.";
+            textos["escape"] = "¡Lo lograron! Thor y Loki escapan a toda velocidad con el martillo.";
+            textos["asgard"] = "De vuelta en Asgard, todos esperan saber la verdad.";
+            textos["lokiFinal"] = "Loki manipula la situación para quedar como si él haya sido el héroe.";
+            textos["finalHeroico"] = "¡Thor recupera el martillo y derrota a los gigantes!\nFinal Heroico.";
+            textos["finalMalo"] = "No pudieron escapar. Los gigantes los atraparon.\nFinal Malo.";
+
+            miJuego = new Juego();
+        }
+
+        // --- DRAW ---
+        function draw() {
+            background(20);
+            manejarMusica(); 
+
+            if (pantalla === "inicio") {
+                mostrarInicio();
+            } else if (pantalla === "creditos") {
+                mostrarCreditos();
+            } else if (pantalla === "minijuego") {
+                if (!juegoIniciado) {
+                    miJuego.iniciar();
+                    juegoIniciado = true;
+                }
+                miJuego.actualizar();
+                miJuego.dibujar();
+            } else {
+                mostrarPantalla();
+            }
+
+            dibujarUI(); 
+            manejarMusica();
+        }
+
+        // --- GESTIÓN DE PANTALLAS ---
+        function mostrarInicio() {
+            if (imgs["inicio"]) image(imgs["inicio"], 0, 0, width, height);
+            
+            fill(255); textSize(28); fill(0, 150);
+            text("Thor y Loki: El robo de Mjölnir", width/2 + 2, height/3 + 2);
+            fill(255);
+            text("Thor y Loki: El robo de Mjölnir", width/2, height/3);
+
+            boton("Empezar", width/2, height/2, () => pantalla = "intro");
+            boton("Créditos", width/2, height/2 + 60, () => pantalla = "creditos");
+        }
+
+        function mostrarCreditos() {
+            if (imgs["creditos"]) image(imgs["creditos"], 0, 0, width, height);
+            rectMode(CENTER);
+            fill(20, 20, 50, 200);
+            rect(width/2, height/2, 300, 120, 5);
+            fill(255);
+            textSize(22);
+            text("Créditos", width/2, height/2 - 30);
+            textSize(16);
+            text("Angel Ojeda\nNadia Romero\nObra original: mito nórdico de Thrym", width/2, height/2 + 20);
+            boton("Volver al inicio", width/2, height - 80, () => pantalla = "inicio");
+        }
+
+        function mostrarPantalla() {
+            if (imgs[pantalla]) {
+                image(imgs[pantalla], 0, 0, width, height);
+            } else {
+                background(50);
+            }
+
+            // caja de texto
+            rectMode(CENTER);
+            fill(0, 0, 0, 150);
+            rect(width/2, 60, width - 40, 80, 10);
+            fill(255);
+            textSize(16);
+            text(textos[pantalla] || "...", width/2, 60);
+
+            // botones según pantalla
+            if (pantalla === "intro") {
+                boton("Ir solo", width/2 - 120, height - 100, () => pantalla = "solo");
+                boton("Pedir ayuda a Loki", width/2 + 120, height - 100, () => pantalla = "loki");
+            } else if (pantalla === "solo") {
+                boton("Silencioso", width/2 - 120, height - 100, () => pantalla = "finalHeroico");
+                boton("Kamikaze", width/2 + 120, height - 100, () => pantalla = "finalMalo");
+            } else if (pantalla === "loki") {
+                boton("Seguir al encuentro", width/2, height - 100, () => pantalla = "thrym");
+            } else if (pantalla === "thrym") {
+                boton("Hablar con Freyja", width/2 - 120, height - 100, () => pantalla = "freya");
+                boton("Aceptar plan de Loki", width/2 + 120, height - 100, () => pantalla = "plan");
+            } else if (pantalla === "freya") {
+                boton("Abandonar misión", width/2 - 120, height - 100, () => pantalla = "finalMalo");
+                boton("Aceptar plan de Loki", width/2 + 120, height - 100, () => pantalla = "plan");
+            } else if (pantalla === "plan") {
+                boton("Ir a la boda", width/2, height - 100, () => pantalla = "boda");
+            } else if (pantalla === "boda") {
+                boton("Seguir con el plan", width/2, height - 100, () => pantalla = "banquete");
+            } else if (pantalla === "banquete") {
+                boton("Esperar el martillo", width/2, height - 100, () => pantalla = "martillo");
+            } else if (pantalla === "martillo") {
+                boton("Atacar ahora", width/2 - 120, height - 100, () => pantalla = "finalHeroico");
+                boton("Escapar con Loki", width/2 + 120, height - 100, () => pantalla = "minijuego");
+            } else if (pantalla === "escape") {
+                boton("Volver a Asgard", width/2, height - 100, () => pantalla = "asgard");
+            } else if (pantalla === "asgard") {
+                boton("Contar la verdad", width/2 - 120, height - 100, () => pantalla = "finalHeroico");
+                boton("Mentir", width/2 + 120, height - 100, () => pantalla = "lokiFinal");
+            } else if (pantalla === "lokiFinal" || pantalla === "finalHeroico" || pantalla === "finalMalo") {
+                boton("Volver al inicio", width/2, height - 100, () => pantalla = "inicio");
+            }
+        }
+
+        // --- UI y BOTONES ---
+        function boton(txt, x, y, accion) {
+            rectMode(CENTER);
+            if (mouseX > x - 100 && mouseX < x + 100 && mouseY > y - 20 && mouseY < y + 20) {
+                fill(70, 70, 100, 220); 
+            } else {
+                fill(50, 50, 80, 200);
+            }
+            rect(x, y, 200, 40, 10);
+            fill(255);
+            textSize(16);
+            text(txt, x, y);
+
+            if (!clickBloqueado && mouseIsPressed &&
+                mouseX > x - 100 && mouseX < x + 100 &&
+                mouseY > y - 20 && mouseY < y + 20) {
+                accion();
+                clickBloqueado = true;
+            }
+        }
+
+        function mouseReleased() { clickBloqueado = false; }
+
+        function dibujarUI() {
+            let iconX = 10; let iconY = 10; let iconSize = 40;
+
+            if (imgs["mute"] && imgs["unmute"]) {
+                image(muted ? imgs["mute"] : imgs["unmute"], iconX, iconY, iconSize, iconSize);
+            } else {
+                fill(100); rect(iconX, iconY, iconSize, iconSize); fill(255); textSize(10);
+                text(muted ? "MUTE" : "ON", iconX + 20, iconY + 20);
+            }
+
+            if (imgs["cursor"]) {
+                image(imgs["cursor"], mouseX, mouseY, 32, 32);
+            }
+        }
+
+        function mouseClicked() {
+            let iconX = 10, iconY = 10, iconSize = 40;
+            if (mouseX > iconX && mouseX < iconX + iconSize && mouseY > iconY && mouseY < iconY + iconSize) {
+                muted = !muted;
+                if (muted) {
+                    if (currentMusic) currentMusic.stop();
+                    if (targetMusic) targetMusic.stop();
+                }
+                return false;
+            }
+        }
+
+        // --- SISTEMA DE MÚSICA ---
+        function manejarMusica() {
+            if (muted) {
+                if (currentMusic) currentMusic.stop();
+                if (targetMusic) targetMusic.stop();
+                currentMusic = null; targetMusic = null; fading = false;
+                return;
+            }
+
+            let musicaDeseada;
+            if (pantalla === "minijuego") {
+                musicaDeseada = minijuego_mus;
+            } else if (["inicio", "creditos", "finalHeroico", "finalMalo", "escape", "lokiFinal"].includes(pantalla)) {
+                musicaDeseada = inicio_mus;
+            } else {
+                musicaDeseada = ingame_mus;
+            }
+
+            if (!currentMusic && musicaDeseada) {
+                if (musicaDeseada.isLoaded()) {
+                    musicaDeseada.loop(); musicaDeseada.setVolume(1);
+                    currentMusic = musicaDeseada; targetMusic = null; fading = false;
+                }
+                return;
+            }
+
+            if (currentMusic !== musicaDeseada) {
+                if (!(fading && targetMusic === musicaDeseada)) {
+                    targetMusic = musicaDeseada;
+                    if (targetMusic && targetMusic.isLoaded() && !targetMusic.isPlaying()) {
+                        targetMusic.loop(); targetMusic.setVolume(0);
+                    }
+                    iniciarFade();
+                }
+            }
+
+            if (fading) {
+                let elapsed = (millis() - fadeStartTime) / 1000.0;
+                let t = constrain(elapsed / fadeDuration, 0, 1);
+                if (currentMusic) currentMusic.setVolume(1 - t);
+                if (targetMusic) targetMusic.setVolume(t);
+                if (t >= 1) {
+                    if (currentMusic && currentMusic.isPlaying()) currentMusic.stop();
+                    currentMusic = targetMusic; targetMusic = null; fading = false;
+                }
+            }
+        }
+
+        function iniciarFade() {
+            fadeStartTime = millis(); fading = true;
+            if (currentMusic) currentMusic.setVolume(1);
+            if (targetMusic) targetMusic.setVolume(0);
+        }
+
+        // --- CLASES DEL MINIJUEGO ---
+        class Trineo {
+            constructor() {
+                this.ancho = 95;
+                this.alto = 95;
+                this.x = width / 2;
+                this.y = height - 100;
+                this.velocidad = 5;
+                this.color = color(200);
+            }
+            actualizar() {
+                if (keyIsDown(LEFT_ARROW) || teclas.left) this.x -= this.velocidad;
+                if (keyIsDown(RIGHT_ARROW) || teclas.right) this.x += this.velocidad;
+                this.x = constrain(this.x, 120, width - 120);
+            }
+            dibujar() {
+                if (imgs["trineo"]) {
+                    imageMode(CENTER);
+                    image(imgs["trineo"], this.x, this.y, this.ancho, this.alto);
+                    imageMode(CORNER);
+                } else {
+                    fill(255,0,0);
+                    rectMode(CENTER);
+                    rect(this.x, this.y, this.ancho, this.alto);
+                    rectMode(CORNER);
+                }
+            }
+            chocaCon(gigante) {
+                let margen = 25;
+                return (this.x + this.ancho/2 - margen > gigante.x - gigante.ancho/2 + margen &&
+                        this.x - this.ancho/2 + margen < gigante.x + gigante.ancho/2 - margen &&
+                        this.y + this.alto/2 - margen > gigante.y - gigante.alto/2 + margen &&
+                        this.y - this.alto/2 + margen < gigante.y + gigante.alto/2 - margen);
+            }
+        }
+
+        class Gigante {
+            constructor(x, y, velocidad) {
+                this.x = x; this.y = y; this.velocidad = velocidad;
+                this.ancho = 85; this.alto = 85;
+            }
+            actualizar() { this.y += this.velocidad; }
+            dibujar() {
+                if (imgs["gigante"]) { imageMode(CENTER); image(imgs["gigante"], this.x, this.y, this.ancho, this.alto); imageMode(CORNER); }
+                else { fill(0,0,255); ellipse(this.x, this.y, this.ancho, this.alto); }
+            }
+            estaFueraPantalla() { return (this.y > height + 50); }
+        }
+
+        class Camino {
+            constructor() { this.lineasY = 0; this.velocidad = 8; }
+            actualizar() { this.lineasY += this.velocidad; if (this.lineasY > 50) this.lineasY = 0; }
+            dibujar() {
+                // el minijuego estaba teniendo errores con rectMode CENTER
+                rectMode(CORNER);
+                background(200, 220, 255);
+                noStroke(); fill(230, 240, 255); rect(100, 0, width - 200, height);
+                fill(150, 180, 200); rect(0, 0, 100, height); rect(width - 100, 0, 100, height);
+                stroke(255); strokeWeight(4);
+                for (let i = -50; i < height; i += 50) line(width / 2, i + this.lineasY, width / 2, i + this.lineasY + 25);
+                noStroke();
+                // aca lo solucionamos para que el HUD se pueda dibujar correctamente
+                rectMode(CENTER);
+            }
+        }
+
+        class Juego {
+            constructor() {
+                this.trineo = new Trineo(); this.camino = new Camino();
+                this.gigantes = []; this.tiempoTotal = 30; this.tiempoRestante = 30;
+                this.vidas = 3; this.estado = "instrucciones"; this.timerGigantes = 0;
+            }
+            iniciar() {
+                this.trineo = new Trineo(); this.gigantes = [];
+                this.tiempoRestante = 30; this.vidas = 3; this.estado = "instrucciones";
+            }
+            actualizar() {
+                if (this.estado === "jugando") {
+                    this.camino.actualizar(); this.trineo.actualizar();
+                    if (frameCount % 60 == 0 && this.tiempoRestante > 0) this.tiempoRestante--;
+                    if (this.tiempoRestante <= 0) this.estado = "ganado";
+                    this.timerGigantes++;
+                    if (this.timerGigantes > 30) {
+                        this.gigantes.push(new Gigante(random(130, width - 130), -50, random(4, 7)));
+                        this.timerGigantes = 0;
+                    }
+                    for (let i = this.gigantes.length - 1; i >= 0; i--) {
+                        let g = this.gigantes[i];
+                        g.actualizar();
+                        if (this.trineo.chocaCon(g)) {
+                            this.vidas--; this.gigantes.splice(i, 1);
+                            if (this.vidas <= 0) this.estado = "perdido";
+                        }
+                        if (this.gigantes[i] && g.estaFueraPantalla()) this.gigantes.splice(i, 1);
+                    }
+                }
+            }
+            dibujar() {
+                this.camino.dibujar();
+                if (this.estado === "instrucciones") {
+                    fill(0, 150); rect(width/2, height/2, width-100, 200);
+                    fill(255); text("¡HUYE DE LOS GIGANTES!", width/2, height/2 - 20);
+                    text("Flechas IZQ/DER. 30 Segundos.", width/2, height/2 + 20);
+                    boton("JUGAR", width/2, height/2 + 60, () => this.estado = "jugando");
+                } else if (this.estado === "jugando") {
+                    this.gigantes.forEach(g => g.dibujar());
+                    this.trineo.dibujar(); this.dibujarHUD();
+                } else if (this.estado === "ganado" || this.estado === "perdido") {
+                    fill(0, 150); rect(width/2, height/2, 400, 200);
+                    fill(255); textSize(30);
+                    text(this.estado === "ganado" ? "¡GANASTE!" : "¡ATRAPADO!", width/2, height/2 - 20);
+                    boton("Continuar", width/2, height/2 + 60, () => {
+                        pantalla = this.estado === "ganado" ? "escape" : "finalMalo";
+                        juegoIniciado = false;
+                    });
+                }
+            }
+            dibujarHUD() {
+                // rectmode soluciona el pequeño error que nos tiraba el minijuego
+                rectMode(CENTER);
+                fill(0); rect(width/2, 20, width, 40);
+                fill(255); textAlign(LEFT); text("Tiempo: " + this.tiempoRestante, 20, 20);
+                textAlign(RIGHT); text("Vidas: " + this.vidas, width - 20, 20); textAlign(CENTER);
+            }
+        }
+    </script>
+</body>
+</html>
